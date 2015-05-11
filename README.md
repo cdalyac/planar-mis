@@ -12,4 +12,4 @@ Cython is required for this project. In order to ensure that it is installed bef
 
 ### Output
 
-All output should go to ./output until we find a better way to display our results.
+All output should go to ./data until we find a better way to display our results.
