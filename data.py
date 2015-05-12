@@ -58,8 +58,6 @@ for vertices in range(starting_vertices, ending_vertices + 1):
 
 		G = make_planar_graph(vertices, edge_probability)
 
-		maximum_independent_set(G)
-
 		max_indep_set = maximum_independent_set(G)
 		#print max_indep_set
 		#if vertices/float(ending_vertices) >=0.15:
