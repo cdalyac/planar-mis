@@ -1,4 +1,5 @@
 import networkx as nx
+import networkx.algorithms.approximation as apxa
 import random
 import matplotlib.pyplot as plt
 import planarity
@@ -31,13 +32,40 @@ def make_planar_graph(vertices, edge_probability):
 
 	return G_nx
 
+def sort_dict(d):
+  'return a sorted list of tuples from the dictionary'
+  return sorted(d.viewitems(), cmp=lambda x,y: cmp(x[1], y[1]))
+
+def maximum_independent_set(graph):
+	H = G.copy()
+	independent_set_size = 0
+	while len(H.nodes()) > 0:
+		sorted_degrees = sort_dict(H.degree(H.nodes()))
+		lowest_degree_vertex = sorted_degrees[0][0]
+		H.remove_nodes_from(H.neighbors(lowest_degree_vertex))
+		H.remove_node(lowest_degree_vertex)
+		independent_set_size += 1
+	return independent_set_size
+
+
 for vertices in range(starting_vertices, ending_vertices + 1):
 	print("Running test " + str(vertices - starting_vertices) + "/" + str(total_vertices))
 	for i in range(trials + 1):
-		edge_probability = random.random()
+		if i/float(trials) >= 0.65:
+			edge_probability = random.uniform(0,0.5)
+		else:
+			edge_probability = random.uniform(0.5,1.0)
+
 		G = make_planar_graph(vertices, edge_probability)
 
-		max_indep_set = len(nx.maximal_independent_set(G))
+		maximum_independent_set(G)
+
+		max_indep_set = maximum_independent_set(G)
+		#print max_indep_set
+		#if vertices/float(ending_vertices) >=0.15:
+			##planarity.planarity_networkx.draw(G, labels=True)
+		#	nx.draw_networkx(G)
+		#	plt.show()
 		data.append((vertices, G.number_of_edges(), max_indep_set))
 
 # sort the data by n(G), then by e(G)
