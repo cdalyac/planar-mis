@@ -10,7 +10,7 @@ data = []
 starting_vertices = 3
 ending_vertices = 50
 total_vertices = ending_vertices - starting_vertices
-trials = 25
+trials = 100
 
 output_file = "data/output.txt"
 
