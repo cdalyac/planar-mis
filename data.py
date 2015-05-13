@@ -4,6 +4,7 @@ import random
 import matplotlib.pyplot as plt
 import planarity
 import os
+from igraph import *
 
 # global declarations
 data = []
@@ -38,14 +39,21 @@ def sort_dict(d):
 
 def maximum_independent_set(graph):
 	H = G.copy()
-	independent_set_size = 0
-	while len(H.nodes()) > 0:
-		sorted_degrees = sort_dict(H.degree(H.nodes()))
-		lowest_degree_vertex = sorted_degrees[0][0]
-		H.remove_nodes_from(H.neighbors(lowest_degree_vertex))
-		H.remove_node(lowest_degree_vertex)
-		independent_set_size += 1
-	return independent_set_size
+	n=H.__len__()
+	e=H.edges()
+	igraph = Graph(n=n,edges=e)
+	alpha = igraph.alpha()
+	print alpha
+	if n >= 5:
+		plot(igraph,target=None,bbox=(0, 0, 600, 600))
+	#independent_set_size = 0
+	#while len(H.nodes()) > 0:
+	#	sorted_degrees = sort_dict(H.degree(H.nodes()))
+	#	lowest_degree_vertex = sorted_degrees[0][0]
+	#	H.remove_nodes_from(H.neighbors(lowest_degree_vertex))
+	#	H.remove_node(lowest_degree_vertex)
+	#	independent_set_size += 1
+	return alpha
 
 
 for vertices in range(starting_vertices, ending_vertices + 1):
