@@ -43,9 +43,9 @@ def maximum_independent_set(graph):
 	e=H.edges()
 	igraph = Graph(n=n,edges=e)
 	alpha = igraph.alpha()
-	print alpha
-	if n >= 5:
-		plot(igraph,target=None,bbox=(0, 0, 600, 600))
+	#if n >= 5:
+	#	plot(igraph,target=None,bbox=(0, 0, 600, 600))
+
 	#independent_set_size = 0
 	#while len(H.nodes()) > 0:
 	#	sorted_degrees = sort_dict(H.degree(H.nodes()))
@@ -58,7 +58,7 @@ def maximum_independent_set(graph):
 
 for vertices in range(starting_vertices, ending_vertices + 1):
 	print("Running test " + str(vertices - starting_vertices) + "/" + str(total_vertices))
-	for i in range(trials + 1):
+	for i in range(trials):
 		if i/float(trials) >= 0.65:
 			edge_probability = random.uniform(0,0.5)
 		else:
@@ -74,18 +74,20 @@ for vertices in range(starting_vertices, ending_vertices + 1):
 		#	plt.show()
 		data.append((vertices, G.number_of_edges(), max_indep_set))
 
-# sort the data by n(G), then by e(G)
-data = sorted(data, key = lambda trial: (trial[0], trial[1]))
+# sort the data by n(G), then by alpha(G), then by e(G)
+data = sorted(data, key = lambda trial: (trial[0], trial[2], trial[1]))
 
 # get rid of the old data before writing
 # then open the file, and print add the header
 os.remove(output_file) if os.path.exists(output_file) else None
 output = open(output_file, 'w')
-output.write("n(G)\te(G)\ta(G)\tmax(e)\n")
+output.write("n(G)\te(G)\ta(G)\tmax(e)\tmin(a)\tmax(a)\n")
 
 # add all data to the output file
-for trial in data:
-	output.write(str(trial[0]) + "\t" + str(trial[1]) + "\t" + str(trial[2]) + "\t" + str(3*trial[0] - 6) + "\n")
+for trial_num in range(len(data)):
+	min_alpha = trial_num/100*100
+	max_alpha = trial_num/100*100+99
+	output.write(str(data[trial_num][0]) + "\t" + str(data[trial_num][1]) + "\t" + str(data[trial_num][2]) + "\t" + str(3*data[trial_num][0] - 6) + "\t" + str(data[min_alpha][2]) + "\t" + str(data[max_alpha][2]) + "\n")
 
 # close the file and exit
 output.close()
