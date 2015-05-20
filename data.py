@@ -59,11 +59,7 @@ def maximum_independent_set(graph):
 for vertices in range(starting_vertices, ending_vertices + 1):
 	print("Running test " + str(vertices - starting_vertices) + "/" + str(total_vertices))
 	for i in range(trials):
-		if i/float(trials) >= 0.65:
-			edge_probability = random.uniform(0,0.5)
-		else:
-			edge_probability = random.uniform(0.5,1.0)
-
+		edge_probability = random.uniform(0, 3.0/vertices)
 		G = make_planar_graph(vertices, edge_probability)
 
 		max_indep_set = maximum_independent_set(G)
